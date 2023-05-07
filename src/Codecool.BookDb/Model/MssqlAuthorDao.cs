@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -54,7 +54,46 @@ SELECT SCOPE_IDENTITY();
 
     public Author Get(int id)
     {
-        throw new System.NotImplementedException();
+        try
+        {
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+
+            string selectAuthorSql =
+                @"
+                SELECT id, first_name, last_name, birth_date
+                FROM author
+                WHERE id=@id;
+                ";
+
+            command.CommandText = selectAuthorSql;
+            command.Parameters.AddWithValue("@id", id);
+
+            using var reader = command.ExecuteReader();
+            Author author = null;
+
+            if (reader.Read())
+            {
+                string firstName = (string)reader["first_name"];
+                string lastName = (string)reader["last_name"];
+                DateTime birthDate = Convert.ToDateTime(reader["birth_date"]);
+
+                author = new Author(firstName, lastName, birthDate);
+                author.Id = id;
+
+            }
+
+            return author;
+        }
+
+        catch (SqlException exception)
+        {
+            // tutaj mógłbym dodać logowanie
+
+            throw;
+        }
     }
 
     public List<Author> GetAll()

@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Codecool.BookDb.Manager;
 using Codecool.BookDb.Model;
+using System;
+using System.Collections.Generic;
 
 namespace Codecool.BookDb;
 
@@ -15,7 +15,8 @@ public static class Program
         IAuthorDao authorDao = new MssqlAuthorDao(manager.ConnectionString);
 
         //AddAuthor(authorDao);
-        PrintAuthors(authorDao);
+        //PrintAuthors(authorDao);
+        PrintAuthor(authorDao);
     }
 
     public static void AddAuthor(IAuthorDao authorDao)
@@ -35,5 +36,12 @@ public static class Program
         {
             Console.WriteLine(author);
         }
+    }
+
+    public static void PrintAuthor(IAuthorDao authorDao)
+    {
+        int id = 1;
+        Author author = authorDao.Get(id);
+        Console.WriteLine(author);
     }
 }
