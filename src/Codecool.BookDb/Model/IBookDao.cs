@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace Codecool.BookDb.Model
+namespace Codecool.BookDb.Model;
+
+public interface IBookDao
 {
-    public interface IBookDao
-    {
-        public void Add(Book book);
+    public void Add(Book book);
 
-        public void Update(Book book);
+    public void Update(Book book);
 
-        public Book Get(int id);
+    public Book Get(int id);
 
-        List<Book> GetAll();
-    }
+    List<Book> GetAll();
 }
