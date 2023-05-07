@@ -8,7 +8,7 @@ namespace Codecool.BookDb
         public static void Main(string[] args)
         {
             BookDbManager manager = new BookDbManager();
-            Console.WriteLine(manager.ConnectionString);
+            manager.Connect();
         }
     }
 }
